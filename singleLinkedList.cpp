@@ -7,41 +7,42 @@ using namespace std;
 template<class T>
 class singleLinkedList {
 private:
-        struct Node {
-            Node* next;
-            T data;
-            Node() :next(0) {}
-            Node(T value, Node* p = 0) :data(value), next(p) {}
-        };
+    struct Node {
+        Node* next;
+        T data;
+        Node() :next(0) {}
+        Node(T value, Node* p = 0) :data(value), next(p) {}
+    };
 
-        Node* head;
-        Node* tail;
-        size_t length;
+    Node* head;
+    Node* tail;
+    size_t length;
 
-        // Helper functions
-        Node* find(size_t )const;
-        void checkIndex(size_t index) const{
-            if(index < 0 || index > length-1)
-                throw out_of_range("");
-            else return;
-        }
+    // Helper functions
+    Node* find(size_t )const;
+    void checkIndex(size_t index) const{
+        if(index < 0 || index > length-1)
+            throw out_of_range("");
+        else return;
+    }
 
-    public:
-        singleLinkedList() :head(0), tail(0), length(0) {}
-        ~singleLinkedList();
-        void push_front(const T&);
-        void push_back(const T&);
-        void pop_back();
-        void pop_front();
-        void removeAt(size_t );
-        T& getAt(size_t );
-        void display() const;
-        size_t size() const;
-        T& front();
-        T& back();
-        bool exist(const T&) const;
-        bool empty()const;
-        void clear();
+public:
+    singleLinkedList() :head(0), tail(0), length(0) {}
+    ~singleLinkedList();
+    void push_front(const T&);
+    void push_back(const T&);
+    void pop_back();
+    void pop_front();
+    void removeAt(size_t );
+    T& getAt(size_t );
+    const T& getAt(size_t ) const;
+    void display() const;
+    size_t size() const;
+    T& front();
+    T& back();
+    bool exist(const T&) const;
+    bool empty()const;
+    void clear();
 
 };
 
@@ -57,7 +58,7 @@ singleLinkedList<T>::~singleLinkedList() {
 }
 
 template<class T>
-singleLinkedList<T>::Node* singleLinkedList<T>::find(size_t index)const{
+typename singleLinkedList<T>::Node* singleLinkedList<T>::find(size_t index)const{
     Node* targetNode = head;
     while(index--){
         targetNode = targetNode->next;
@@ -179,6 +180,12 @@ T& singleLinkedList<T>::getAt(size_t index ){
 }
 
 template<class T>
+const T& singleLinkedList<T>::getAt(size_t index) const{
+    checkIndex(index);
+    return (find(index)->data);
+}
+
+template<class T>
 T& singleLinkedList<T>::front() {
     return (head->data);
 }
@@ -228,7 +235,11 @@ void singleLinkedList<T>::clear(){
 }
 
 int main() {
-
+    singleLinkedList<int> list;
+    list.push_back(1);
+    list.push_back(1);
+    list.push_back(1);
+    list.push_back(2);
+    list.display();
 
 }
-
