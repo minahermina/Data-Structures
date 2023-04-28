@@ -198,7 +198,6 @@ int SingleLinkedList<T>::replaceAt(T newElement, size_t index){
 template<class T>
 void SingleLinkedList<T>::insertAt(T newElement, size_t index){
     checkIndex(index);
-    Node* newNode = new(nothrow)Node(newElement);
 
     if(index == 0) {
         insertAtHead(newElement);
@@ -207,6 +206,7 @@ void SingleLinkedList<T>::insertAt(T newElement, size_t index){
         insertAtTail(newElement);
     }
     else{
+        Node* newNode = new(nothrow)Node(newElement);
         Node* prevNode = find(index - 1);
         newNode->next = prevNode->next;
         prevNode->next = newNode;

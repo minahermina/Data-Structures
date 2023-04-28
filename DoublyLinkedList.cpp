@@ -20,7 +20,6 @@ private:
         size_t length;
 
         // Helper fucntions
-        Node* find(const size_t& )const;
         void checkIndex(const size_t& index)const ;
         void checkOverFlow(const Node* const)const;
         void checkUnderFlow()const;
@@ -29,22 +28,28 @@ private:
     public:
         DoublyLinkedList() :head(0), tail(0), length(0) {}
         ~DoublyLinkedList();
-        void push_front(const T&);
-        void push_back(const T&);
-        void pop_back();
-        void pop_front();
+
+        Node* find(const size_t& index)const;    // given an index, returns Node pointer
+        void insertAtHead(const T&);
+        void insertAtTail(const T&);
+        void insertAt(const T&, size_t);
+        void insertAfter(Node* , const T&);
+        void removeAtHead();
+        void removeAtTail();
         void removeAt(const size_t& );
-        T& getAt(const size_t& );
-        void display() const;
-        void reverseDisplay()const;
+        T& retrieveAt(const size_t& );
+        void replaceAt(const T&, const size_t&);
+        void forwardTraversal() const;
+        void backwardTraversal()const;
+        void swap(const size_t& , const size_t& );
         size_t size() const;
         T& front();
         T& back();
-        const T& front()const;
-        const T& back()const;
 
-        bool exist(const T&) const;
-        bool empty()const;
+        void reverse();
+        bool isExist(const T&) const;
+        bool isItemAtEqual(const T&, const size_t& ) const;
+        bool isEmpty()const;
         void clear();
 
 };
@@ -70,7 +75,7 @@ DoublyLinkedList<T>::~DoublyLinkedList() {
 }
 
 template<class T>
-void DoublyLinkedList<T>::push_back(const T & value) {
+void DoublyLinkedList<T>::insertAtTail(const T & value) {
     Node* newNode = new(nothrow) Node(value);
 
     checkOverFlow(newNode);
@@ -87,7 +92,47 @@ void DoublyLinkedList<T>::push_back(const T & value) {
 }
 
 template<class T>
-void DoublyLinkedList<T>::push_front(const T & value) {
+void DoublyLinkedList<T>::insertAt(const T& newElement, size_t index) {
+    checkIndex(index);
+
+    if(index == 0)
+        insertAtHead(newElement);
+    else if(index == length - 1)
+        insertAtTail(newElement);
+    else{
+        Node* current = find(index);
+        Node* newNode = new(nothrow) Node(newElement);
+        checkOverFlow(newNode);
+
+        // make newNode and Node before the current points to each other
+        current->prev->next = newNode;
+        newNode->prev = current->prev;
+
+        // make newNode and current  points to each other
+        newNode->next = current;
+        current->prev = newNode;
+
+    }
+    length++;
+}
+
+template<class T>
+void DoublyLinkedList<T>::insertAfter(Node* prevNode, const T& newElement) {
+    Node* newNode = new Node(newElement);
+
+    Node* afterPrevNode = prevNode->next;
+    // make newNode and prevNode points to each other
+    prevNode->next = newNode;
+    newNode->prev = prevNode;
+    // make newNode and afterNode points to each other
+    newNode->next = afterPrevNode;
+    afterPrevNode->prev = newNode;
+
+    length++;
+}
+
+template<class T>
+void DoublyLinkedList<T>::insertAtHead(const T & value) {
     Node* newNode = new(nothrow) Node(value);
 
     checkOverFlow(newNode);
@@ -104,7 +149,7 @@ void DoublyLinkedList<T>::push_front(const T & value) {
 }
 
 template<class T>
-void DoublyLinkedList<T>::pop_back() {
+void DoublyLinkedList<T>::removeAtHead() {
     checkUnderFlow();
 
     if(length == 1){
@@ -114,13 +159,13 @@ void DoublyLinkedList<T>::pop_back() {
         Node* prev = tail->prev;
         delete tail;
         tail = prev;
-        tail->next =0;
+        tail->next = 0;
     }
     length--;
 }
 
 template<class T>
-void DoublyLinkedList<T>::pop_front() {
+void DoublyLinkedList<T>::removeAtTail() {
     checkUnderFlow();
 
     if(length == 1){
@@ -140,16 +185,12 @@ void DoublyLinkedList<T>::removeAt(const size_t& index) {
     checkUnderFlow();
     checkIndex(index);
 
-    Node* target = find(index);
-    if(head == tail){
-        delete head;
-        head = tail = 0;
-        length--;
-        return ;
-    }
-    if(target == head) pop_front();
-    else if(target == tail) pop_back();
+    if(index == 0)
+        removeAtHead();
+    else if(index == length - 1)
+        removeAtTail();
     else{
+        Node* target = find(index);
         Node* next = target->next;
         Node* prev = target->prev;
         prev->next = next;
@@ -161,13 +202,19 @@ void DoublyLinkedList<T>::removeAt(const size_t& index) {
 }
 
 template<class T>
-T &DoublyLinkedList<T>::getAt(const size_t& index) {
+T &DoublyLinkedList<T>::retrieveAt(const size_t& index) {
     checkIndex(index);
     return (find(index)->data);
 }
 
 template<class T>
-void DoublyLinkedList<T>::display() const {
+void DoublyLinkedList<T>::replaceAt(const T& newElement, const size_t& index) {
+    checkIndex(index);
+    find(index)->data = newElement;
+}
+
+template<class T>
+void DoublyLinkedList<T>::forwardTraversal() const {
     Node* tempHead = head;
     while(tempHead != 0){
         cout << tempHead->data << ' ';
@@ -177,13 +224,86 @@ void DoublyLinkedList<T>::display() const {
 }
 
 template<class T>
-void DoublyLinkedList<T>::reverseDisplay() const {
+void DoublyLinkedList<T>::backwardTraversal()const {
     Node* tempTail = tail;
     while(tempTail != 0){
         cout << tempTail->data << ' ';
         tempTail = tempTail->prev;
     }
     cout << '\n';
+}
+
+template<class T>
+void DoublyLinkedList<T>::swap(const size_t& index1, const size_t& index2 ){
+    checkIndex(index1);
+    checkIndex(index2);
+
+    Node* node1 = find(index1);
+    Node* node2 = find(index2);
+
+    if (node1 == node2) {
+        return;
+    }
+
+    // Handle the case where either node1 or node2 is the head or tail
+    if (node1->prev == nullptr) {
+        head = node2;
+    } else if (node2->prev == nullptr) {
+        head = node1;
+    }
+
+    if (node1->next == nullptr) {
+        tail = node2;
+    } else if (node2->next == nullptr) {
+        tail = node1;
+    }
+
+    // Swap next pointers
+    Node* temp = node1->next;
+    node1->next = node2->next;
+    node2->next = temp;
+
+    // Swap prev pointers
+    temp = node1->prev;
+    node1->prev = node2->prev;
+    node2->prev = temp;
+
+    // Update next and prev pointers of adjacent nodes
+    if (node1->next != nullptr) {
+        node1->next->prev = node1;
+    }
+
+    if (node1->prev != nullptr) {
+        node1->prev->next = node1;
+    }
+
+    if (node2->next != nullptr) {
+        node2->next->prev = node2;
+    }
+
+    if (node2->prev != nullptr) {
+        node2->prev->next = node2;
+    }
+}
+
+template<class T>
+void DoublyLinkedList<T>::reverse(){
+   if(length <= 1)
+       return ;
+
+    Node* current = head; // set current to the head node of the list
+    Node* temp = 0;
+
+    while (current != 0) { // traverse the list using the current pointer until it becomes NULL
+        temp = current->prev; // store the previous node in temp
+        current->prev = current->next; // swap the prev and next pointers of the current node
+        current->next = temp;
+        current = current->prev; // move to the next node (previously the previous node)
+    }
+
+    if (temp != 0) { // update the head pointer to point to the new head of the list
+        head = temp->prev;
+    }
 }
 
 template<class T>
@@ -206,7 +326,7 @@ T &DoublyLinkedList<T>::back() {
 }
 
 template<class T>
-bool DoublyLinkedList<T>::exist(const T & value) const {
+bool DoublyLinkedList<T>::isExist(const T & value) const {
     Node* tempHead = head;
     while(tempHead != 0){
         if(tempHead->data == value)
@@ -218,14 +338,21 @@ bool DoublyLinkedList<T>::exist(const T & value) const {
 }
 
 template<class T>
-bool DoublyLinkedList<T>::empty() const {
+bool DoublyLinkedList<T>:: isItemAtEqual(const T& value, const size_t& index) const{
+    checkIndex(index);
+
+    return (find(index)->data == value);
+}
+
+template<class T>
+bool DoublyLinkedList<T>::isEmpty() const {
     return (length == 0);
 }
 
 template<class T>
 void DoublyLinkedList<T>::clear() {
-    while(!empty())
-        pop_back();
+    while(!isEmpty())
+        removeAtHead();
 }
 
 template<class T>
@@ -244,11 +371,20 @@ void DoublyLinkedList<T>::checkOverFlow(const Node* const p)const {
 template<class T>
 void DoublyLinkedList<T>::checkUnderFlow()const{
     if(length == 0)
-        throw underflow_error("the list is empty!");
+        throw underflow_error("the list is isEmpty!");
 }
 
 int main() {
     DoublyLinkedList<int> l;
+    l.insertAtTail(1);
+    l.insertAtTail(2);
+    l.insertAtTail(3);
+    l.insertAtTail(4);
+    l.insertAtTail(5);
+    l.forwardTraversal();
+    l.swap(0,3);
+    l.forwardTraversal();
+
+
 
 }
-
