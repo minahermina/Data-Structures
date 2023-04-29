@@ -19,7 +19,6 @@ private:
     size_t length = 0;
 
     // Helper functions
-    Node* find(size_t )const;
     void checkIndex(size_t index) const{
         if(index < 0 || index > length-1)
             throw out_of_range("");
@@ -37,6 +36,7 @@ public:
     // Copy Constructor
     SingleLinkedList(const SingleLinkedList<T>&);
 
+    Node* find(size_t )const;
     void insertAtHead(const T&);
     void insertAtTail(const T&);
     void removeAtTail();
