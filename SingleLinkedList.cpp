@@ -90,6 +90,10 @@ SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T>& lhs) {
 
 template<class T>
 typename SingleLinkedList<T>::Node* SingleLinkedList<T>::find(size_t index)const{
+    checkIndex(index);
+    //  returns nullptr
+    if(length == 0)
+        return 0;
     Node* targetNode = head;
     while(index--){
         targetNode = targetNode->next;
