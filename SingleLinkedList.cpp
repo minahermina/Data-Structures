@@ -14,9 +14,9 @@ private:
         Node(T value, Node* p = 0) :data(value), next(p) {}
     };
 
-    Node* head;
-    Node* tail;
-    size_t length;
+    Node* head = 0;
+    Node* tail = 0;
+    size_t length = 0;
 
     // Helper functions
     Node* find(size_t )const;
@@ -28,7 +28,15 @@ private:
 
 public:
     SingleLinkedList() : head(0), tail(0), length(0) {}
+
+    // for initialization e.g. SingleLinkedList<int> l = {1,2,3};
+    SingleLinkedList(const initializer_list<T>&);
+
     ~SingleLinkedList();
+
+    // Copy Constructor
+    SingleLinkedList(const SingleLinkedList<T>&);
+
     void insertAtHead(const T&);
     void insertAtTail(const T&);
     void removeAtTail();
@@ -36,7 +44,7 @@ public:
     void removeAt(size_t );
     T& retrieveAt(size_t );
     const T& retrieveAt(size_t ) const;
-    int replaceAt(T , size_t );
+    void replaceAt(T , size_t );
     void insertAt(T , size_t );
     bool isExist(T);
     bool isItemAtEqual(T, size_t);
@@ -58,6 +66,25 @@ SingleLinkedList<T>::~SingleLinkedList() {
         Node* next = temphead->next;
         delete temphead;
         temphead = next;
+    }
+}
+
+template<class T>
+SingleLinkedList<T>::SingleLinkedList(const initializer_list<T>& list) {
+    for(auto it = list.begin(); it != list.end(); it++){
+        insertAtTail(*it);
+    }
+}
+
+
+
+template<class T>
+SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T>& lhs) {
+
+    Node* lhsHead = lhs.head;
+    while(lhsHead != 0){
+        this->insertAtTail(lhsHead->data);
+        lhsHead = lhsHead->next;
     }
 }
 
@@ -190,7 +217,7 @@ const T& SingleLinkedList<T>::retrieveAt(size_t index) const{
 }
 
 template<class T>
-int SingleLinkedList<T>::replaceAt(T newElement, size_t index){
+void SingleLinkedList<T>::replaceAt(T newElement, size_t index){
     checkIndex(index);
     retrieveAt(index) = newElement;
 }
@@ -307,14 +334,10 @@ void SingleLinkedList<T>::clear(){
     }
 }
 
-int main() {
-    SingleLinkedList<int> list;
-    list.insertAtHead(1);
-    list.insertAtHead(2);
-    list.insertAtHead(3);
-    list.insertAtHead(4);
-//    list.insertAt(10,1);
-    list.print();
-    list.print();
-
+void add(SingleLinkedList<int> v){
+    v.print();
 }
+//
+//int main() {
+//    SingleLinkedList<int> list = {1,2,3,4};
+//}
