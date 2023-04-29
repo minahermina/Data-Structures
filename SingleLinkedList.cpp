@@ -338,9 +338,7 @@ void SingleLinkedList<T>::clear(){
     }
 }
 
-void add(SingleLinkedList<int> v){
-    v.print();
-}
+
 //
 //int main() {
 //    SingleLinkedList<int> list = {1,2,3,4};
