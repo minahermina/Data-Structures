@@ -6,7 +6,7 @@ using namespace std;
 template<typename Type>
 
 class binary_tree{
-    private:
+protected:
 
         struct Node{
             Node* left;
@@ -32,11 +32,11 @@ class binary_tree{
 
 
     public:
-        binary_tree(){
-            root = new Node(1);
-            root->left = new Node(2);
-            root->right = new Node(3);
-            root->left->left = new Node(4);
+        binary_tree() : root(nullptr){
+//            root = new Node(1);
+//            root->left = new Node(2);
+//            root->right = new Node(3);
+//            root->left->left = new Node(4);
 
         }
         ~binary_tree(){clear();}
