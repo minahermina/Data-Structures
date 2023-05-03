@@ -12,6 +12,7 @@ protected:
             Node* left;
             Node* right;
             Type value;
+            size_t height;
 
             Node():left(nullptr), right(nullptr){
                 memset(&value,0,sizeof(value));
