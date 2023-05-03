@@ -51,10 +51,10 @@ void binary_search_tree<Type>::insert(const Type &element) {
             else
                 current = current->right;
         }
-        if(current->value > element)
-            current->left = newNode;
+        if(trailCurrent->value > element)
+            trailCurrent->left = newNode;
         else
-            current->right = newNode;
+            trailCurrent->right = newNode;
     }
 
 }
@@ -68,7 +68,9 @@ int main(){
     binary_search_tree<int> tree;
     tree.insert(1);
     tree.insert(2);
-//    tree.insert(3);
+    tree.insert(3);
+    tree.insert(4);
+    tree.insert(5);
     tree.print_inorder();
 //    cout << tree.height();
 
