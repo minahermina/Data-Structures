@@ -9,11 +9,16 @@ class binary_search_tree : public binary_tree<Type>{
     private:
     using typename binary_tree<Type>::Node;
     public:
-
+        Node* findNode(const Type& element);
         bool search(const Type& element) const ;
         void insert(const Type& element);
         void delete_node(const Type& element);
 };
+
+template<class Type>
+typename binary_tree<Type>::Node *binary_search_tree<Type>::findNode(const Type &element) {
+    return nullptr;
+}
 
 template<typename Type>
 bool binary_search_tree<Type>::search(const Type &element) const {
