@@ -6,39 +6,42 @@ using namespace std;
 
 template<class Type>
 class binary_search_tree : public binary_tree<Type>{
-    private:
-    using typename binary_tree<Type>::Node;
+    protected:
+        using typename binary_tree<Type>::Node;
+        Node* find_node(const Type& element);
+        void delete_node(Node* p);
     public:
-        Node* findNode(const Type& element);
-        bool search(const Type& element) const ;
+        bool search(const Type& element) ;
         void insert(const Type& element);
         void delete_node(const Type& element);
 };
 
+
 template<class Type>
-typename binary_tree<Type>::Node *binary_search_tree<Type>::findNode(const Type &element) {
-    return nullptr;
-}
-
-template<typename Type>
-bool binary_search_tree<Type>::search(const Type &element) const {
+typename binary_tree<Type>::Node *binary_search_tree<Type>::find_node(const Type &element) {
     Node* current = this->root;
-    bool found = false;
+    Node* target = nullptr;
     if(current == nullptr){
-        return false;
+        return target;
     }else{
-        while(current != nullptr && !found){
+        while(current != nullptr){
 
-            if (current->value == element)
-                found = true;
+            if (current->value == element){
+               target = current;
+                break;
+            }
             else if (current->value > element)
                 current = current->left;
             else
                 current = current->right;
         }
     }
+    return target;
+}
 
-    return found;
+template<typename Type>
+bool binary_search_tree<Type>::search(const Type &element){
+    return (find_node(element) != nullptr);
 }
 
 template<typename Type>
@@ -76,7 +79,8 @@ int main(){
     tree.insert(3);
     tree.insert(4);
     tree.insert(5);
-    tree.print_inorder();
+//    tree.print_inorder();
+cout << tree.search(2);
 //    cout << tree.height();
 
 }
