@@ -5,7 +5,7 @@ using namespace std;
 
 template<typename Type>
 
-class BinaryTree{
+class binary_tree{
     private:
 
         struct Node{
@@ -24,7 +24,7 @@ class BinaryTree{
         void inorder(Node* p)const ;
         void preorder(Node* p)const;
         void postorder(Node* p)const;
-        size_t count_nodes(Node* p)const ;                          // returns the number of nodes in the BinaryTree rooted at 'p'.
+        size_t count_nodes(Node* p)const ;                          // returns the number of nodes in the binary_tree rooted at 'p'.
         size_t count_leaves(Node* p)const ;
         size_t node_height(Node* p)const ;
         void destroy_node(Node*& p);                                // deleting the tree starting at node 'p';
@@ -32,18 +32,18 @@ class BinaryTree{
 
 
     public:
-        BinaryTree(){
+        binary_tree(){
             root = new Node(1);
             root->left = new Node(2);
             root->right = new Node(3);
             root->left->left = new Node(4);
 
         }
-        ~BinaryTree(){clear();}
+        ~binary_tree(){clear();}
 
-        BinaryTree(const BinaryTree<Type>& other);  // Copy Constructor
+        binary_tree(const binary_tree<Type>& other);  // Copy Constructor
 
-        BinaryTree<Type>& operator=(const BinaryTree<Type>& lhs);   //  Assignment Operator
+        binary_tree<Type>& operator=(const binary_tree<Type>& lhs);   //  Assignment Operator
 
         void print_postorder()const;                // L V R
         void print_preorder()const;                 // V L R
@@ -57,7 +57,7 @@ class BinaryTree{
 };
 
 template<typename Type>
-void BinaryTree<Type>::inorder(Node *p) const {
+void binary_tree<Type>::inorder(Node *p) const {
     if(p != nullptr){
         inorder(p->left);
         cout << p->value << ' ';
@@ -68,7 +68,7 @@ void BinaryTree<Type>::inorder(Node *p) const {
 }
 
 template<typename Type>
-void BinaryTree<Type>::preorder(BinaryTree::Node *p) const {
+void binary_tree<Type>::preorder(binary_tree::Node *p) const {
     if(p != nullptr){
         cout << p->value << ' ';
         inorder(p->left);
@@ -79,7 +79,7 @@ void BinaryTree<Type>::preorder(BinaryTree::Node *p) const {
 }
 
 template<typename Type>
-void BinaryTree<Type>::postorder(BinaryTree::Node *p) const {
+void binary_tree<Type>::postorder(binary_tree::Node *p) const {
     if(p != nullptr){
         inorder(p->left);
         inorder(p->right);
@@ -90,7 +90,7 @@ void BinaryTree<Type>::postorder(BinaryTree::Node *p) const {
 }
 
 template<typename Type>
-size_t BinaryTree<Type>::count_nodes(BinaryTree::Node *p) const {
+size_t binary_tree<Type>::count_nodes(binary_tree::Node *p) const {
     if(p == nullptr)
          return 0;
     else
@@ -98,7 +98,7 @@ size_t BinaryTree<Type>::count_nodes(BinaryTree::Node *p) const {
 }
 
 template<typename Type>
-size_t BinaryTree<Type>::count_leaves(BinaryTree::Node *p) const {
+size_t binary_tree<Type>::count_leaves(binary_tree::Node *p) const {
     if(p == nullptr)
          return 0;
     else if (p->left == nullptr && p->right == nullptr)
@@ -108,7 +108,7 @@ size_t BinaryTree<Type>::count_leaves(BinaryTree::Node *p) const {
 }
 
 template<typename Type>
-size_t BinaryTree<Type>::node_height(BinaryTree::Node *p) const {
+size_t binary_tree<Type>::node_height(binary_tree::Node *p) const {
     if(p == nullptr)
         return 0;
     else
@@ -116,7 +116,7 @@ size_t BinaryTree<Type>::node_height(BinaryTree::Node *p) const {
 }
 
 template<typename Type>
-void BinaryTree<Type>::destroy_node(Node*& p) {
+void binary_tree<Type>::destroy_node(Node*& p) {
     if(p != nullptr){
         destroy_node(p->left);
         destroy_node(p->right);
@@ -126,7 +126,7 @@ void BinaryTree<Type>::destroy_node(Node*& p) {
 }
 
 template<typename Type>
-void BinaryTree<Type>::copy_tree(Node *& copy_root, Node* original_root){
+void binary_tree<Type>::copy_tree(Node *& copy_root, Node* original_root){
     if(original_root == nullptr)
         copy_root == nullptr;
     else{
@@ -137,7 +137,7 @@ void BinaryTree<Type>::copy_tree(Node *& copy_root, Node* original_root){
 }
 
 template<typename Type>
-BinaryTree<Type>::BinaryTree(const BinaryTree<Type> &other) {
+binary_tree<Type>::binary_tree(const binary_tree<Type> &other) {
     if(other.root == nullptr)
         this->root = nullptr;
     else
@@ -145,7 +145,7 @@ BinaryTree<Type>::BinaryTree(const BinaryTree<Type> &other) {
 }
 
 template<typename Type>
-BinaryTree<Type> &BinaryTree<Type>::operator=(const BinaryTree<Type> &lhs) {
+binary_tree<Type> &binary_tree<Type>::operator=(const binary_tree<Type> &lhs) {
     if(this->root == lhs.root)
         return *this;
     else{
@@ -158,36 +158,36 @@ BinaryTree<Type> &BinaryTree<Type>::operator=(const BinaryTree<Type> &lhs) {
 }
 
 template<typename Type>
-void BinaryTree<Type>::print_postorder() const {
+void binary_tree<Type>::print_postorder() const {
     postorder(root);
 }
 
 template<typename Type>
-void BinaryTree<Type>::print_preorder() const {
+void binary_tree<Type>::print_preorder() const {
     preorder(root);
 }
 
 template<typename Type>
-void BinaryTree<Type>::print_inorder() const {
+void binary_tree<Type>::print_inorder() const {
     inorder(root);
 }
 
 template<typename Type>
- size_t  BinaryTree<Type>::size() const {
+ size_t  binary_tree<Type>::size() const {
     return count_nodes(root);
 }
 
 template<typename Type>
-size_t BinaryTree<Type>::height() const {
+size_t binary_tree<Type>::height() const {
     return node_height(root);
 }
 template<typename Type>
-size_t BinaryTree<Type>::leaves()const {
+size_t binary_tree<Type>::leaves()const {
     return count_leaves(root);
 }
 
 template<typename Type>
-void BinaryTree<Type>::clear() {
+void binary_tree<Type>::clear() {
     destroy_node(root);
 }
 
