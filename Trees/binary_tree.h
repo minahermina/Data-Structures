@@ -9,9 +9,10 @@ class binary_tree{
 protected:
 
         struct Node{
-            Node* left;
-            Node* right;
+            Node* left = 0;
+            Node* right = 0;
             Type value;
+            size_t height;
 
             Node():left(nullptr), right(nullptr){
                 memset(&value,0,sizeof(value));
@@ -160,16 +161,19 @@ binary_tree<Type> &binary_tree<Type>::operator=(const binary_tree<Type> &lhs) {
 template<typename Type>
 void binary_tree<Type>::print_postorder() const {
     postorder(root);
+    cout << "\n";
 }
 
 template<typename Type>
 void binary_tree<Type>::print_preorder() const {
     preorder(root);
+    cout << "\n";
 }
 
 template<typename Type>
 void binary_tree<Type>::print_inorder() const {
     inorder(root);
+    cout << "\n";
 }
 
 template<typename Type>
