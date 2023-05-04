@@ -33,13 +33,7 @@ protected:
 
 
     public:
-        binary_tree() : root(nullptr){
-//            root = new Node(1);
-//            root->left = new Node(2);
-//            root->right = new Node(3);
-//            root->left->left = new Node(4);
-
-        }
+        binary_tree() : root(nullptr){}
         ~binary_tree(){clear();}
 
         binary_tree(const binary_tree<Type>& other);  // Copy Constructor
@@ -194,6 +188,4 @@ template<typename Type>
 void binary_tree<Type>::clear() {
     destroy_node(root);
 }
-
-
 #endif //TREESIMPLEMENTATIONS_BINARYTREE_H
