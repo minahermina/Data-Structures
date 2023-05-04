@@ -26,6 +26,7 @@ bool binary_search_tree<Type>::search(const Type& element) {
 
 template<typename Type>
 void binary_search_tree<Type>::insert(const Type& element) {
+    if(find_node(element) != nullptr) return;
     Node* newNode = new Node(element);
     if (this->root == nullptr) {
         this->root = newNode;
@@ -138,12 +139,12 @@ int main() {
 //    tree.insert(2);
 //    tree.insert(3);
 //    tree.insert(4);
-    tree.insert(5);
-    tree.insert(3);
-    tree.insert(7);
-    tree.insert(6);
-//    tree.print_inorder();
-    cout << tree.search(5);
+    tree.insert(0);
+    tree.insert(0);
+    tree.insert(0);
+
+    tree.print_postorder();
+//    cout << tree.search(5);
 //    tree.print_inorder();
 //    cout <<endl;
 //    tree.print_preorder();
